@@ -1,0 +1,49 @@
+# Node / Mastra 生成物（travel-agent/, travel-next/, template-*/ など、どのサブプロジェクトにも共通）
+node_modules/
+dist/
+.mastra/
+
+# Next.js 生成物（travel-next/。Day3 Step14）
+.next/
+next-env.d.ts
+
+# 02-templates/ の公式テンプレート実行で作る使い捨てプロジェクト（中身はテンプレート作者の
+# 所有物。ハンズオン後は丸ごと削除する）。travel-agent/ は成果物なので対象外
+template-*/
+
+# Day1 Step1 の Quickstart で作る使い捨てプロジェクト（生成物を眺めるだけで、以降は使わない）
+quickstart-demo/
+
+# 環境変数（.env.example は追跡する）
+.env
+.env.local
+.env.development
+!.env.example
+
+# Mastra Memory の SQLite ストレージ
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Step 10 の Metrics 用に DuckDB を足したときにできる観測データ（src/mastra/public/）
+*.duckdb
+*.duckdb.wal
+
+# OS / エディタが生成する一時ファイル
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# Claude Code の個人用ローカル設定（各自の環境の値なので共有しない）
+.claude/settings.local.json
+
+# ローカル専用メモ（自分の環境の Docker コンテナ名・イメージ名など。各自の値なので共有しない）
+.local/
+
+# エディタの個人設定（インデント幅などの好み。共有すべき設定は
+# .devcontainer/devcontainer.json の customizations.vscode に置く）
+.vscode/

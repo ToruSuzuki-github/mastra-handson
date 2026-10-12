@@ -1,0 +1,67 @@
+{
+  // 正典は docs/reference/devcontainer.json。変更する場合はそちらを先に更新し、
+  // docs/01-setup/01-environment.md §3 の掲載内容と同期すること
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "mastra-handson",
+
+  // Node 24 系（現行 Active LTS。Mastra v1 要件の 22.13.0+ も満たす）
+  // 更新頻度を抑えたい場合は "5-24-bookworm" のようにピン留めする
+  // （タグ一覧: https://mcr.microsoft.com/v2/devcontainers/typescript-node/tags/list）
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:24-bookworm",
+
+  // 4111: Mastra Studio / dev サーバー
+  // 5173: Day3 Step13 の Vite（travel-agent/web/）
+  // 3000: Day3 Step14 の Next.js（travel-next/）
+  "forwardPorts": [4111, 5173, 3000],
+  "portsAttributes": {
+    "4111": {
+      "label": "Mastra Studio",
+      // 既定値。mastra dev 起動後に自動でブラウザを開きたい場合は "openBrowserOnce" に変更する
+      "onAutoForward": "notify"
+    },
+    "5173": {
+      "label": "Vite (travel-agent/web)",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "Next.js (travel-next)",
+      "onAutoForward": "notify"
+    }
+  },
+
+  // ホストの環境変数をコンテナへ引き渡す（本ハンズオンは .env を使うので既定では無効）
+  // ※ ここに書いたキーは「継承済み」扱いになり、mastra dev は .env の値で上書きしない。
+  //    ホスト側が未設定だと空文字が入り、.env に書いても空のままになる。
+  // "remoteEnv": {
+  //   "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}"
+  // },
+
+  "containerEnv": {
+    // Mastra CLI の匿名テレメトリを無効化（任意）
+    "MASTRA_TELEMETRY_DISABLED": "1"
+  },
+
+  "postCreateCommand": "node --version && npm --version",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "mikestead.dotenv",
+        "qwtel.sqlite-viewer",
+        // トラブル時にIDE内から相談できるようにしておく（任意）
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        // formatOnSave だけでは TS/JS のフォーマッタが確定せず保存時整形が効かないため明示指定
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
+
+  // typescript-node イメージの既定非 root ユーザー
+  "remoteUser": "node"
+}
